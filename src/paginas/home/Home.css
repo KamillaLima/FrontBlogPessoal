@@ -1,0 +1,14 @@
+h2{
+    color:aqua;
+}
+
+.titulo{
+    text-align: center;
+    color:blue;
+}
+.img{
+    width: 500px;
+    height: 500px;
+    display: block;
+    margin: 0 auto;
+}
