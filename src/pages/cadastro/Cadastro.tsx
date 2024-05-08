@@ -1,7 +1,14 @@
-import React from 'react'
 import './Cadastro.css'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { cadastrarUsuario } from '../../services/Service'
+import Usuario from '../../models/Usuario'
 
 function Cadastro() {
+
+  let navigate = useNavigate()
+
+
 
 
   return (
@@ -18,7 +25,7 @@ function Cadastro() {
               name="nome"
               placeholder="Nome"
               className="border-2 border-slate-700 rounded p-2"
-             
+
             />
           </div>
           <div className="flex flex-col w-full">
@@ -41,6 +48,7 @@ function Cadastro() {
               className="border-2 border-slate-700 rounded p-2"
             />
           </div>
+          
           <div className="flex flex-col w-full">
             <label htmlFor="senha">Senha</label>
             <input

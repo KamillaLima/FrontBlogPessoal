@@ -52,6 +52,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     })
 
     //pra ver se o usuário esta logado ou não / tb posso colocar useState<boolean>(false)
+    //Isso ai eh só pra colocar um carregamento,igual qnd vc vai fazer login;
+    //é mais pra ser algo visual
     const [isLoading, setIsLoading] = useState(false)
 
     //Aqui nós chamamos as função que criamos láá no nosso Service

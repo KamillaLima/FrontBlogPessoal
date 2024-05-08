@@ -20,7 +20,6 @@ export const cadastrarUsuario = async (url: string, dados: Object, setDados: Fun
   const resposta = await api.post(url, dados)
   setDados(resposta.data)
 }
-
 /*
   Vamos pensar em uma agencia dos correios : eu vou buscar a encomenda,vou pedir pro atendente a 
   encomenda,ele vai pedir pro estoquista ir la pegar ,o estoquista vai pegar e entregar pro atendente e ele irá me entregar
@@ -29,3 +28,24 @@ export const cadastrarUsuario = async (url: string, dados: Object, setDados: Fun
 */
 
 /*O useContext é como se fosse um H2,então quando recarregamos a página os dados são perdidos,entre eles o token */
+
+
+export const buscar = async(url: string, setDados: Function, header: Object) => {
+                                                          // para passar o toekn da pessoa que ta fazendo a requisição
+  const resposta = await api.get(url, header)
+  setDados(resposta.data)
+}
+
+export const cadastrar = async(url: string, dados: Object, setDados: Function, header: Object) => {
+  const resposta = await api.post(url, dados, header)
+  setDados(resposta.data)
+}
+
+export const atualizar = async(url: string, dados: Object, setDados: Function, header: Object) => {
+  const resposta = await api.put(url, dados, header)
+  setDados(resposta.data)
+}
+
+  export const deletar = async(url: string, header: Object) => {
+    await api.delete(url, header)
+  }
