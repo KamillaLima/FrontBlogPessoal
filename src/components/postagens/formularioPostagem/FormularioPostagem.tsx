@@ -32,7 +32,7 @@ function FormularioPostagem() {
   });
 
   async function buscarPostagemPorId(id: string) {
-    await buscar(`/postagens/${id}`, setPostagem, {
+    await buscar(`/postagens/id/${id}`, setPostagem, {
       headers: {
         Authorization: token,
       },

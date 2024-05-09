@@ -17,7 +17,7 @@ function DeletarPostagem() {
 
   async function buscarPorId(id: string) {
     try {
-      await buscar(`/postagens/${id}`, setPostagem, {
+      await buscar(`/postagens/id/${id}`, setPostagem, {
         headers: {
           'Authorization': token
         }
