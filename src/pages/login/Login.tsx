@@ -38,14 +38,13 @@ function Login() {
 
 
 
-
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-2 h-screen place-items-center">
-        <form className="flex justify-center items-center gap-9 flex-col w-full px-24 h-full bg-purple " onSubmit={login}>
+        <form className="flex justify-center items-center gap-9 flex-col w-full px-24 h-full bg-purple  cellphone:px-2 cellphone:pb-10" onSubmit={login}>
 
           <div className='relative top-14 w-1/2 text-center right-2 bg-purple'>
-            <h2 className="text-6xl text-white font-semibold ">Login</h2>
+            <h2 className="text-6xl text-white font-semibold  ">Login</h2>
           </div>
 
           <hr className=' w-full border-white mb-4'>
@@ -108,7 +107,7 @@ function Login() {
             </Link>
           </p>
         </form>
-        <div className="w-full ">
+        <div className="w-full cellphone:hidden ">
 
           <img src={Imagem} className='w-screen p-10' />
         </div>
