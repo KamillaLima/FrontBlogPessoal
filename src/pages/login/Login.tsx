@@ -47,7 +47,7 @@ function Login() {
 
   return (
     <>
-      <div className="grid cp:grid-cols-1 grid-cols-2  h-screen place-items-center">
+      <div className="grid cp:grid-cols-1 grid-cols-2  h-screen items-center">
         <form className="flex justify-center bg-purple items-center gap-9 flex-col w-full  h-full cp:px-4 cp:pb-10   md:px-10 2xl:px-28  sm:px-8 lg:px-10 xl:px-14" onSubmit={login}>
 
           <div className='relative top-14 w-1/2 text-center right-2 bg-purple sm:w-40 sm:right-1 '>
@@ -57,7 +57,7 @@ function Login() {
           <hr className=' w-full border-white mb-4'>
           </hr>
 
-          <div className=' w-full flex flex-col  '>
+          <div className=' w-full flex flex-col'>
 
             <label htmlFor="usuario" className="font-semibold text-white" >  E-mail</label>
 

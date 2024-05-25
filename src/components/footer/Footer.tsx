@@ -1,4 +1,4 @@
-import { FacebookLogo, InstagramLogo, LinkedinLogo } from '@phosphor-icons/react'
+import { LinkedinLogo , GithubLogo } from '@phosphor-icons/react'
 import React, { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 
@@ -13,14 +13,18 @@ function Footer() {
   if(usuario.token !== '') {
     footerComponent = (
       <>
-        <div className="flex justify-center bg-indigo-900 text-white">
-          <div className="container flex flex-col items-center py-4">
-            <p className='text-xl font-bold'>Blog pessoal Generation | Copyright: {data}</p>
-            <p className='text-lg'>Acesse nossas redes sociais</p>
-            <div className='flex gap-2'>
-              <LinkedinLogo size={48} weight='bold' />
-              <InstagramLogo size={48} weight='bold' />
-              <FacebookLogo size={48} weight='bold' />
+        <div className="flex justify-center bg-purple text-white">
+          <div className="container flex flex-row items-center py-4 justify-between cp:flex-col cp:text-center cp:gap-2">
+            <p className='text-xl '>Blog pessoal Generation | Copyright: {data}</p>
+            <div className='flex gap-20 mr-3 '>
+              <a href='https://www.linkedin.com/in/kamillarodrigues/' target='_blank'>
+                
+              <LinkedinLogo size={48} weight='light' />
+              </a>
+              <a href='https://github.com/KamillaLima' target='_blank'>
+                
+              <GithubLogo size={48} weight='light' />
+              </a>
             </div>
           </div>
         </div>
