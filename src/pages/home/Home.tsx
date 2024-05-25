@@ -10,7 +10,7 @@ function Home() {
     <>
       <div className=" flex justify-center">
         <div className='container grid grid-cols-2 mt-3 cp:grid-cols-1 sm:grid-cols-1 md:ml-2 xl:ml-2 '>
-          <div className="flex flex-col gap-8 justify-center  cp:mb-4 md:mb-4 ">
+          <div className="flex flex-col gap-8 justify-center cp:mb-4 md:mb-4 ">
 
             <h2 className='text-6xl font-bold text-pink'>Seja bem-vinde ao meu Blog!</h2>
             <p className='text-2xl text-purple italic'>Compartilhe suas ideias e opiniões aqui!</p>
@@ -24,10 +24,11 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex justify-center cp:hidden sm:hidden">
+          <div className="flex justify-center flex-col cp:hidden sm:hidden items-center ">
             <img src={homeLogo} alt="" className='w-11/12' />
-
-          </div>
+            <p className='text-gray-300 relative bottom-28 md:bottom-16 lg:bottom-20 md:text-xs'>
+              Illustration by <a href="https://icons8.com/illustrations/author/mNCLibjicqSz">Julia K</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+            </p> </div>
         </div>
       </div>
     </>
