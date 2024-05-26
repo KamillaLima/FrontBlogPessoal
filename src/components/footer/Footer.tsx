@@ -13,7 +13,7 @@ function Footer() {
   if(usuario.token !== '') {
     footerComponent = (
       <>
-        <div className="flex justify-center bg-purple text-white">
+        <div className="flex justify-center bg-purple text-white ">
           <div className="container flex flex-row items-center py-4 justify-between cp:flex-col cp:text-center cp:gap-2">
             <p className='text-xl '>Blog pessoal Generation | Copyright: {data}</p>
             <div className='flex gap-20 mr-3 '>

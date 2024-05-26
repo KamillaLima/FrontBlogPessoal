@@ -14,7 +14,7 @@ function Login() {
     {} as UsuarioLogin
   );
 
-  let [outraLogo, setOutraLogo] = useState(false);
+  let [outraLogo, setOutraLogo] = useState(true);
   const { usuario, handleLogin } = useContext(AuthContext);
 
   const { isLoading } = useContext(AuthContext)

@@ -17,7 +17,6 @@ import DeletarTema from './components/temas/deletarTema/DeletarTema';
 import ListaPostagens from './components/postagens/listaPostagem/ListaPostagens';
 import FormularioPostagem from './components/postagens/formularioPostagem/FormularioPostagem';
 
-import Perfil from './pages/perfil/Perfil';
 import DeletarPostagem from './components/postagens/deletarPostagem/deletarPostagem';
 
 function App() {
@@ -28,7 +27,7 @@ function App() {
       <ToastContainer />
         <BrowserRouter>
         <Navbar />
-          <div className='min-h-[80vh]'>
+          <div className='w-full h-full  '>
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />
@@ -42,7 +41,6 @@ function App() {
               <Route path="/cadastroPostagem" element={<FormularioPostagem />} />
               <Route path="/editarPostagem/:id" element={<FormularioPostagem />} />
               <Route path="/deletarPostagem/:id" element={<DeletarPostagem />} />
-              <Route path="/perfil" element={<Perfil />} />
             </Routes>
           </div>
           <Footer />

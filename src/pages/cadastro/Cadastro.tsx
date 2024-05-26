@@ -87,7 +87,7 @@ function Cadastro() {
     <>
       <div className="grid grid-cols-2 cp:grid-cols-1 sm:grid-cols-1 h-screen w-full  items-center ">
         <div className=" w-full cp:hidden sm:hidden ">
-          <img src={foto} className='w-full '></img>
+          <img src={foto} className=' '></img>
         </div>
         <form className='flex  flex-col w-full h-full  bg-purple px-14 pb-11 md:px-10 2xl:pb-52 items-center 2xl:pt-24  ' onSubmit={cadastrarNovoUsuario}>
           <div className='relative top-6 w-1/2 text-center  bg-purple items-center cp:w-full md:w-52  lg:w-[60%] '>
