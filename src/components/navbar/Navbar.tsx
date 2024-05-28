@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
 import { Tooltip as ReactTooltip, Tooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import foto from '../../assets/usuario.png'
+
+
 function Navbar() {
   let navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
@@ -16,6 +18,7 @@ function Navbar() {
     navigate('/login')
   }
 
+  const idUser = usuario.id;
   let navbarComponent
 
   if (usuario.token !== "") {
@@ -29,9 +32,11 @@ function Navbar() {
             <Link to='/postagens' className='hover:underline'>Postagens</Link>
             <Link to='/temas' className='hover:underline'>Temas</Link>
             <Link to='/cadastroTema' className='hover:underline'>Cadastrar tema</Link>
-            <a data-tooltip-id="my-tooltip" className='hover:cursor-pointer' onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+            <Link to='/usuario' className='hover:underline'>
+            <a data-tooltip-id="my-tooltip" className='hover:cursor-pointer' onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} >
               <FontAwesomeIcon icon={faUser} />
             </a>
+            </Link>
             <ReactTooltip
 
               id="my-tooltip"
@@ -42,7 +47,7 @@ function Navbar() {
                 <h1>
                   Olá {usuario.nome}!
                 </h1>
-                {usuario.foto === "" || usuario.foto===" " ? (
+                {usuario.foto === "" || usuario.foto === " " ? (
                   <img className='mt-3 w-full h-32 object-cover rounded-full' src={foto} alt="foto padrão" />
                 ) : (
                   <img src={usuario.foto} className='mt-3 w-full h-32 object-cover rounded-full' alt="foto do usuário" />

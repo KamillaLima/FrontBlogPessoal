@@ -45,10 +45,18 @@ function ListaPostagens() {
   return (
     <div>
       {postagens.length === 0 && (
-        <h1>vazio</h1>
+        <div className= 'justify-center items-center flex ' >
+        <Oval
+        color='#8e86bd'
+        secondaryColor='#8e86bd'
+        visible={true}
+        height="200"
+        width="200"
+      />
+      </div>
       )}
       <button className='fixed bottom-2 right-12 bg-purple w-14 h-14 rounded-full hover:bg-greenS  hover:text-pink cp:right-4 sm:right-7  ' onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><FontAwesomeIcon icon={faArrowUp} /></button>
-      <div className=' justify-center items-center flex flex-col w-full gap-12 my-12'>
+      <div className='flex flex-col w-full gap-12 my-12 justify-center items-center '>
         {postagens.map((postagem) => (
           <CardPostagem key={postagem.id} post={postagem} />
         ))}

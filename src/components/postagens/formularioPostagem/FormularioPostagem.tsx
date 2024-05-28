@@ -87,6 +87,14 @@ function FormularioPostagem() {
     });
   }
 
+  function atualizarEstadoTema(e: ChangeEvent<HTMLInputElement>) {
+    setTema({
+      ...tema,
+      [e.target.name]: e.target.value
+    })
+
+    console.log(JSON.stringify(tema))
+  }
   function retornar() {
     navigate('/postagens');
   }
@@ -166,7 +174,7 @@ function FormularioPostagem() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <p>Tema da postagem</p>
+          <p>Selecione o tema da postagem : </p>
           <select name="tema" id="tema" className='border p-2 border-slate-800 rounded' onChange={(e) => buscarTemaPorId(e.currentTarget.value)}>
             <option value="" selected disabled>Selecione um tema</option>
             {temas.map((tema) => (
@@ -175,6 +183,10 @@ function FormularioPostagem() {
               </>
             ))}
           </select>
+        </div>
+        <div className="flex flex-col gap-2">
+          <p>Não encontrou o tema que queria?Informe ele aqui : </p>
+          <input type="text" id="tema" name="tema" onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstadoTema(e)} className="border-2 border-slate-700 rounded p-2"/>
         </div>
         <button disabled={carregandoTema} type='submit' className='rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2'>
           {carregandoTema ? <span>Carregando</span> : id !== undefined ? 'Editar' : 'Cadastrar'}
