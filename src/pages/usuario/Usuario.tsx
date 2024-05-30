@@ -5,16 +5,13 @@ import Postagem from "../../models/Postagem"
 import { buscar } from "../../services/Service"
 import { toastAlerta } from "../../utils/toastAlerta"
 import CardPostagem from '../../components/postagens/cardPostagem/CardPostagem'
+import DeletarPostagem from '../../components/postagens/deletarPostagem/deletarPostagem'
+import CardPostagemUsuario from '../../components/postagens/cardPostagem/cardPostagemUsuario'
 
-function Usuario () {
-    let navigate = useNavigate()
+function Usuario() {
+  let navigate = useNavigate()
   const { usuario, handleLogout } = useContext(AuthContext)
 
-  function logout() {
-    handleLogout()
-    alert('Usuário deslogado com sucesso')
-    navigate('/login')
-  }
 
   const idUser = usuario.id;
   const [postagens, setPostagens] = useState<Postagem[]>([]);
@@ -32,13 +29,6 @@ function Usuario () {
 
       setResultados(postagensFiltradas);
 
-      postagensFiltradas.forEach(postagem => {
-        console.log(postagem.tema);
-        console.log(postagem.texto)
-      });
-
-
-
     } catch (error: any) {
       if (error.toString().includes('403')) {
         toastAlerta('O token expirou, favor logar novamente', 'info')
@@ -50,14 +40,19 @@ function Usuario () {
   useEffect(() => {
     buscarPostagens();
   }, [postagens.length]);
-    return(
-        <div className=' w-full text-ed items-center flex flex-col'>
-        <p className=''>Minhas publicações : </p>
-           {resultado.map((postagem) => (
-          <CardPostagem key={postagem.id} post={postagem} />
+  return (
+    <div className=' w-full text-ed items-center flex flex-col'>
+      <p className=''>Minhas publicações : </p>
+
+      <div className='flex flex-col w-full gap-12 my-12 justify-center items-center '>
+        {resultado.map((postagem) => (
+          <CardPostagemUsuario key={postagem.id} post={postagem} />
+          
         ))}
-        </div>
-    )
+
+      </div>
+    </div>
+  )
 }
 
 

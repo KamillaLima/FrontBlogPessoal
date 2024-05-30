@@ -7,6 +7,7 @@ interface CardPostagemProps {
 }
 
 function CardPostagem({ post }: CardPostagemProps) {
+  const dataLocal = new Date(post.data + 'Z').toLocaleString();
   return (
     <div className='border w-2/3 rounded '>
       <div>
@@ -22,20 +23,18 @@ function CardPostagem({ post }: CardPostagemProps) {
 
           <div className=''>
             <h3 className='text-lg font-bold capitalize '>{post.usuario?.nome}</h3>
-            <p className=' '>Data: {new Intl.DateTimeFormat(undefined, {
-              dateStyle: 'short',
-              timeStyle: 'medium',
-            }).format(new Date(post.data))}</p>
+            
+            <p className=' '>{dataLocal}</p>
 
           </div>
 
 
         </div>
         <hr className='border '></hr>
-        <div className='p-4 flex flex-col gap-5'>
+        <div className='p-4 flex flex-col gap-5 w-full '>
           <h4 className='text-xl font-semibold capitalize '>{post.titulo}</h4>
           <p className='text-lg'><span className='font-semibold'>Tema: </span>{post.tema?.descricao}</p>
-          <p className='text-justify'>{post.texto}</p>
+          <p className='text-justify text-clip  break-words '>{post.texto}</p>
 
 
         </div>

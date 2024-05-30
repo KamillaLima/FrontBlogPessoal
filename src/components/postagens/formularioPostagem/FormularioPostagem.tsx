@@ -6,77 +6,58 @@ import Tema from '../../../models/Tema';
 import { buscar, atualizar, cadastrar } from '../../../services/Service';
 import { toastAlerta } from '../../../utils/toastAlerta';
 
-
 function FormularioPostagem() {
   let navigate = useNavigate();
-
   const { id } = useParams<{ id: string }>();
-
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
-
-  const [temas, setTemas] = useState<Tema[]>([]);
-
-  const [tema, setTema] = useState<Tema>({
-    id: 0,
-    descricao: '',
-  });
-
-  const [postagem, setPostagem] = useState<Postagem>({
-    id: 0,
-    titulo: '',
-    texto: '',
-    data: '',
-    tema: null,
-    usuario: null,
-  });
-
-  async function buscarPostagemPorId(id: string) {
-    await buscar(`/postagens/id/${id}`, setPostagem, {
-      headers: {
-        Authorization: token,
-      },
-    });
-  }
-
-  async function buscarTemaPorId(id: string) {
-    await buscar(`/temas/${id}`, setTema, {
-      headers: {
-        Authorization: token,
-      },
-    });
-  }
-
-  async function buscarTemas() {
-    await buscar('/temas', setTemas, {
-      headers: {
-        Authorization: token,
-      },
-    });
-  }
+  const [tema, setTema] = useState<Tema>({} as Tema);
+  const [postagem, setPostagem] = useState<Postagem>({} as Postagem);
 
   useEffect(() => {
-    if (token === '') {
+    if (!token) {
       toastAlerta('Você precisa estar logado', 'info');
       navigate('/');
     }
   }, [token]);
 
   useEffect(() => {
-    buscarTemas();
     if (id !== undefined) {
-      buscarPostagemPorId(id);
-      console.log(tema);
-
+      buscarPostagemId(id);
     }
   }, [id]);
 
   useEffect(() => {
-    setPostagem({
-      ...postagem,
-      tema: tema,
-    });
-  }, [tema]);
+    if (postagem.tema && postagem.tema.id) {
+      buscarTemaId(postagem.tema.id);
+    }
+  }, [postagem.tema?.id]);
+
+  async function buscarPostagemId(id: string) {
+    try {
+      const resposta = await buscar(`/postagens/id/${id}`, setPostagem, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setPostagem(resposta);
+    } catch (error: any) {
+      toastAlerta('Erro ao carregar informações da postagem', 'erro');
+    }
+  }
+
+  async function buscarTemaId(id: number) {
+    try {
+      const resposta = await buscar(`/temas/${id}`, setTema, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setTema(resposta);
+    } catch (error: any) {
+      toastAlerta('Erro ao carregar informações do tema', 'erro');
+    }
+  }
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
     setPostagem({
@@ -88,72 +69,115 @@ function FormularioPostagem() {
   }
 
   function atualizarEstadoTema(e: ChangeEvent<HTMLInputElement>) {
-    setTema({
-      ...tema,
-      [e.target.name]: e.target.value
-    })
+    const novoTema = { ...tema, descricao: e.target.value };
+    setTema(novoTema);
 
-    console.log(JSON.stringify(tema))
+    setPostagem((prevPostagem) => ({
+      ...prevPostagem,
+      tema: novoTema,
+    }));
   }
+
   function retornar() {
-    navigate('/postagens');
+    navigate(-1);
   }
 
   async function gerarNovaPostagem(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    console.log({ postagem });
-
-    if (id != undefined) {
-      try {
-        await atualizar(`/postagens`, postagem, setPostagem, {
-          headers: {
-            Authorization: token,
-          },
-        });
-        toastAlerta('Postagem atualizada com sucesso', 'sucesso');
-        retornar();
-      } catch (error: any) {
-        if (error.toString().includes('403')) {
-          toastAlerta('O token expirou, favor logar novamente', 'info')
-          handleLogout()
-        } else {
-          toastAlerta('Erro ao atualizar a Postagem', 'erro');
-        }
-      }
+    if (id) {
+      await handleUpdatePostagem();
+      await handleUpdateTema();
     } else {
-      try {
-        await cadastrar(`/postagens`, postagem, setPostagem, {
-          headers: {
-            Authorization: token,
-          },
-        });
-
-        toastAlerta('Postagem cadastrada com sucesso', 'sucesso');
-        retornar();
-      } catch (error: any) {
-        if (error.toString().includes('403')) {
-          toastAlerta('O token expirou, favor logar novamente', 'info')
-          handleLogout()
-        } else {
-          toastAlerta('Erro ao cadastrar a Postagem', 'erro');
-        }
-      }
+      await handleCreatePostagem();
     }
   }
 
-  const carregandoTema = tema.descricao === '';
+  async function handleUpdatePostagem() {
+    try {
+      await atualizar(`/postagens`, postagem, setPostagem, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      toastAlerta('Postagem atualizada com sucesso', 'sucesso');
+      retornar();
+    } catch (error: any) {
+      handleRequestError(error, 'Erro ao atualizar a Postagem');
+    }
+  }
+
+  async function handleUpdateTema() {
+    try {
+      await atualizar(`/temas`, tema, setTema, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      toastAlerta('tema atualizada com sucesso', 'sucesso');
+      retornar();
+    } catch (error: any) {
+      handleRequestError(error, 'Erro ao atualizar o tema');
+    }
+  }
+
+  async function handleCreatePostagem() {
+    try {
+      const temaResponse = await cadastrarTema();
+      await cadastrarPostagem(temaResponse.id);
+      toastAlerta('Postagem cadastrada com sucesso', 'sucesso');
+      retornar();
+    } catch (error: any) {
+      handleRequestError(error, 'Erro ao cadastrar a Postagem');
+    }
+  }
+
+  async function cadastrarTema() {
+    try {
+      const response = await cadastrar(`/temas`, tema, setTema, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Erro ao cadastrar tema');
+    }
+  }
+
+  async function cadastrarPostagem(temaId: number) {
+    try {
+      const novaPostagem = { ...postagem, tema: { id: temaId } };
+      await cadastrar(`/postagens`, novaPostagem, setPostagem, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {
+      throw new Error('Erro ao cadastrar postagem');
+    }
+  }
+
+  function handleRequestError(error: any, defaultMessage: string) {
+    if (error.toString().includes('403')) {
+      toastAlerta('O token expirou, favor logar novamente', 'info');
+      handleLogout();
+    } else {
+      console.log(error);
+      toastAlerta(defaultMessage, 'erro');
+    }
+  }
 
   return (
     <div className="container flex flex-col mx-auto items-center">
-      <h1 className="text-4xl text-center my-8">{id !== undefined ? 'Editar Postagem' : 'Cadastrar Postagem'}</h1>
+      <h1 className="text-4xl text-center my-8">{id ? 'Editar Postagem' : 'Cadastrar Postagem'}</h1>
 
       <form onSubmit={gerarNovaPostagem} className="flex flex-col w-1/2 gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="titulo">Titulo da postagem</label>
           <input
-            value={postagem.titulo}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+            value={postagem.titulo || ''}
+            onChange={atualizarEstado}
             type="text"
             placeholder="Titulo"
             name="titulo"
@@ -162,10 +186,10 @@ function FormularioPostagem() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="titulo">Texto da postagem</label>
+          <label htmlFor="texto">Texto da postagem</label>
           <input
-            value={postagem.texto}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+            value={postagem.texto || ''}
+            onChange={atualizarEstado}
             type="text"
             placeholder="Texto"
             name="texto"
@@ -173,23 +197,22 @@ function FormularioPostagem() {
             className="border-2 border-slate-700 rounded p-2"
           />
         </div>
+
         <div className="flex flex-col gap-2">
-          <p>Selecione o tema da postagem : </p>
-          <select name="tema" id="tema" className='border p-2 border-slate-800 rounded' onChange={(e) => buscarTemaPorId(e.currentTarget.value)}>
-            <option value="" selected disabled>Selecione um tema</option>
-            {temas.map((tema) => (
-              <>
-                <option value={tema.id} >{tema.descricao}</option>
-              </>
-            ))}
-          </select>
+          <label htmlFor="tema">Tema da postagem:</label>
+          <input
+            type="text"
+            required
+            id="tema"
+            name="descricao"
+            placeholder="Tema"
+            value={tema.descricao || ''}
+            onChange={atualizarEstadoTema}
+            className="border-2 border-slate-700 rounded p-2"
+          />
         </div>
-        <div className="flex flex-col gap-2">
-          <p>Não encontrou o tema que queria?Informe ele aqui : </p>
-          <input type="text" id="tema" name="tema" onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstadoTema(e)} className="border-2 border-slate-700 rounded p-2"/>
-        </div>
-        <button disabled={carregandoTema} type='submit' className='rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2'>
-          {carregandoTema ? <span>Carregando</span> : id !== undefined ? 'Editar' : 'Cadastrar'}
+        <button type="submit" className="rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2">
+          {id ? 'Editar' : 'Cadastrar'}
         </button>
       </form>
     </div>

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { json, useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthContext';
 import Tema from '../../../models/Tema';
 import { atualizar, buscar, cadastrar } from '../../../services/Service';
@@ -48,7 +48,7 @@ function FormularioTema() {
             'Authorization': token
           }
         })
-
+        console.log()
         toastAlerta('Tema atualizado com sucesso', 'sucesso')
         retornar()
 
@@ -69,7 +69,8 @@ function FormularioTema() {
             'Authorization': token
           }
         })
-
+        console.log({ tema });
+        console.log(JSON.stringify(tema))
         toastAlerta('Tema cadastrado com sucesso', 'sucesso')
 
       } catch (error: any) {

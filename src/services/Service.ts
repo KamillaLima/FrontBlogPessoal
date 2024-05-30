@@ -31,14 +31,16 @@ export const cadastrarUsuario = async (url: string, dados: Object, setDados: Fun
 
 
 export const buscar = async(url: string, setDados: Function, header: Object) => {
-                                                          // para passar o toekn da pessoa que ta fazendo a requisição
+                                                          // para passar o token da pessoa que ta fazendo a requisição
   const resposta = await api.get(url, header)
   setDados(resposta.data)
+  return resposta.data
 }
 
-export const cadastrar = async(url: string, dados: Object, setDados: Function, header: Object) => {
+export const cadastrar = async(url: string, dados: Object, setDados: Function, header: Object ) => {
   const resposta = await api.post(url, dados, header)
   setDados(resposta.data)
+  return resposta.data
 }
 
 export const atualizar = async(url: string, dados: Object, setDados: Function, header: Object) => {
