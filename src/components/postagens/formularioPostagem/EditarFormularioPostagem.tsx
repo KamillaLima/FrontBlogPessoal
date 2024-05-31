@@ -1,26 +1,22 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
+import React, { useState, useEffect, ChangeEvent, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthContext';
 import Postagem from '../../../models/Postagem';
 import Tema from '../../../models/Tema';
 import { buscar, atualizar } from '../../../services/Service';
 import { toastAlerta } from '../../../utils/toastAlerta';
+import { RotatingLines } from 'react-loader-spinner';
 
-interface EditarFormularioPostagemProps {
-  postId: number;
-}
-
-
-
-
-function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
+function EditarFormularioPostagem() {
   const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black'
   let navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
   const [tema, setTema] = useState<Tema>({} as Tema);
   const [postagem, setPostagem] = useState<Postagem>({} as Postagem);
-
+  const [meuEstado, setMeuEstado] = useState<{ id: number; descricao: string }>({ id: 0, descricao: "ola und" });
+  const { isLoading } = useContext(AuthContext)
 
   useEffect(() => {
     if (!token) {
@@ -30,10 +26,10 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
   }, [token]);
 
   useEffect(() => {
-    if (postId !== undefined) {
-      buscarPostagemId(postId);
+    if (id !== undefined) {
+      buscarPostagemId(id);
     }
-  }, [postId]);
+  }, [id]);
 
   useEffect(() => {
     if (postagem.tema && postagem.tema.id) {
@@ -41,7 +37,7 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
     }
   }, [postagem.tema?.id]);
 
-  async function buscarPostagemId(postId: number) {
+  async function buscarPostagemId(postId: string) {
     try {
       const resposta = await buscar(`/postagens/id/${postId}`, setPostagem, {
         headers: {
@@ -86,30 +82,22 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
   }
 
   function atualizarEstadoTema(e: ChangeEvent<HTMLInputElement>) {
-    // Mantenha o ID do tema ao atualizar a descrição
     const novoTema = { ...tema, descricao: e.target.value };
     setTema(novoTema);
-  
-    // Atualize a descrição do tema na postagem mantendo o ID do tema
     setPostagem((prevPostagem) => ({
       ...prevPostagem,
       tema: { ...prevPostagem.tema, descricao: e.target.value, id: prevPostagem.tema.id },
     }));
   }
-  
-  
-  
-
-  function retornar() {
-    navigate(-1);
-  }
 
   async function gerarNovaPostagem(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (postId) {
+    if (id) {
+      const novoEstado = { id: tema.id, descricao: tema.descricao };
+      setMeuEstado(novoEstado);
       await handleUpdatePostagem();
-      await handleUpdateTema();
+      await handleUpdateTema(novoEstado);
     } else {
       console.log('erro')
     }
@@ -129,22 +117,18 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
     }
   }
 
-  async function handleUpdateTema() {
+  async function handleUpdateTema(novoEstado: { id: number; descricao: string }) {
     try {
-     
-      await atualizar(`/temas`, tema, setTema, {
+      await atualizar(`/temas`, novoEstado, setMeuEstado, {
         headers: {
           Authorization: token,
         },
       });
-      toastAlerta('tema atualizada com sucesso', 'sucesso');
-      retornar();
+      toastAlerta('Tema atualizado com sucesso', 'sucesso');
     } catch (error: any) {
       handleRequestError(error, 'Erro ao atualizar o tema');
     }
   }
-
-
 
   function handleRequestError(error: any, defaultMessage: string) {
     if (error.toString().includes('403')) {
@@ -156,8 +140,10 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
     }
   }
 
-  console.log(tema)
-  console.log(postagem)
+  function retornar() {
+    navigate(-1);
+  }
+
   return (
     <div className="container flex flex-col mx-auto items-center w-full h-full ">
       <h1 className="text-5xl text-center my-8">Editar Postagem</h1>
@@ -206,7 +192,14 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
 
 
         <button type="submit" className="rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2">
-          Editar
+        {isLoading ? <RotatingLines
+              strokeColor="black"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="24"
+              visible={true}
+            /> :
+              <span className=' text-2xl '>Editar</span>}
         </button>
       </form>
     </div>

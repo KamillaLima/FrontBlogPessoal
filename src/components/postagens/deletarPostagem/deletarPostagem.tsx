@@ -71,7 +71,7 @@ function DeletarPostagem() {
   }
   return (
     <div className='flex flex-col w-full justify-center items-center my-4'>
-      <h1 className='text-4xl text-center my-4'>Deletar postagem</h1>
+      <h1 className='text-4xl text-center '>Deletar postagem</h1>
 
       <p className='text-center font-semibold mb-4'>Você tem certeza de que deseja apagar a postagem a seguir?</p>
 

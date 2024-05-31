@@ -5,6 +5,7 @@ import Postagem from '../../../models/Postagem';
 import Tema from '../../../models/Tema';
 import { buscar, atualizar, cadastrar } from '../../../services/Service';
 import { toastAlerta } from '../../../utils/toastAlerta';
+import { RotatingLines } from 'react-loader-spinner';
 
 function FormularioPostagem() {
   const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black';
@@ -14,7 +15,7 @@ function FormularioPostagem() {
   const token = usuario.token;
   const [tema, setTema] = useState<Tema>({} as Tema);
   const [postagem, setPostagem] = useState<Postagem>({} as Postagem);
-
+  const { isLoading } = useContext(AuthContext)
   useEffect(() => {
     if (!token) {
       toastAlerta('Você precisa estar logado', 'info');
@@ -53,8 +54,8 @@ function FormularioPostagem() {
   async function gerarNovaPostagem(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
-      await handleCreatePostagem();
-    
+    await handleCreatePostagem();
+
   }
 
 
@@ -115,8 +116,9 @@ function FormularioPostagem() {
             required
             className={inputs}
           />
-        </div>
 
+        </div>
+        {postagem.titulo?.length <= 9 && <p>Deve ter mais de 9 caracteres</p>}
         <div className="flex flex-col gap-2">
           <label htmlFor="tema">Tema:</label>
           <input
@@ -131,7 +133,7 @@ function FormularioPostagem() {
             minLength={10}
           />
         </div>
-
+        {tema.descricao?.length <= 9 && <p>Deve ter mais de 9 caracteres</p>}
         <div className="flex flex-col gap-2">
           <label htmlFor="texto">Texto:</label>
           <textarea
@@ -144,11 +146,18 @@ function FormularioPostagem() {
             name="texto"
             required
           />
-          <p className='text-sm mb-1'>O texto da postagem deve possuir mais de 100 caracteres!</p>
+          {postagem.texto?.length <= 99 && <p>Deve ter mais de 100 caracteres</p>}
         </div>
 
-        <button type="submit" className="rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2">
-          Cadastrar
+        <button type="submit" className="rounded disabled:bg-slate-200 bg-greenS hover:bg-purple text-white font-bold w-1/2 mx-auto block py-2">
+          {isLoading ? <RotatingLines
+            strokeColor="black"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="24"
+            visible={true}
+          /> :
+            <span className=''>Cadastrar</span>}
         </button>
       </form>
     </div>

@@ -15,8 +15,6 @@ interface CardPostagemProps {
 function CardPostagemUsuario({ post }: CardPostagemProps) {
   const dataLocal = new Date(post.data + 'Z').toLocaleString();
 
-
-  { console.log(post.data) }
   return (
     <div className='border w-2/3 rounded  '>
       <div>
@@ -44,16 +42,11 @@ function CardPostagemUsuario({ post }: CardPostagemProps) {
               <FontAwesomeIcon icon={faTrash} className='pr-6 cp:pr-0 hover:text-red-500' />
             </Link>
 
+           
 
-            <Popup
-              trigger={ <FontAwesomeIcon icon={faPenToSquare} className='pr-6 cp:pr-0 hover:text-red-500' />}
-              modal >
-                
-              <EditarFormularioPostagem postId={post.id}/>
-            </Popup>
-
-
-
+            <Link to={`/editarPostagem/${post.id}`} >
+              <FontAwesomeIcon icon={faPenToSquare} className='pr-6 cp:pr-0 hover:text-greenS' />
+            </Link>
 
 
           </div>
@@ -76,3 +69,13 @@ function CardPostagemUsuario({ post }: CardPostagemProps) {
 }
 
 export default CardPostagemUsuario
+
+
+/*
+{<Popup
+  trigger={ <FontAwesomeIcon icon={faPenToSquare} className='pr-6 cp:pr-0 hover:text-red-500' />}
+  modal >
+    
+  <EditarFormularioPostagem postId={post.id}/>
+</Popup>
+}*/
