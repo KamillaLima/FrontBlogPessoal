@@ -3,26 +3,21 @@ import { Link, useNavigate } from 'react-router-dom'
 import Postagem from '../../../models/Postagem'
 import foto from '../../../assets/usuario.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import { Tooltip } from 'react-tooltip';
-import DeletarPostagem from '../deletarPostagem/deletarPostagem';
-import moment from 'moment-timezone';
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Popup from 'reactjs-popup';
+import FormularioPostagem from '../formularioPostagem/FormularioPostagem';
+import EditarFormularioPostagem from '../formularioPostagem/EditarFormularioPostagem';
+import ModalPostagem from '../modalPostagem/ModalPostagem';
 
 interface CardPostagemProps {
   post: Postagem
 }
 
 function CardPostagemUsuario({ post }: CardPostagemProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [showElement, setShowElement] = useState(false)
-  const showOrHide = () => setShowElement(true)
-  const navigate = useNavigate();
   const dataLocal = new Date(post.data + 'Z').toLocaleString();
 
-
-  { console.log(post.data) }
   return (
-    <div className='border w-2/3 rounded '>
+    <div className='border w-2/3 rounded  '>
       <div>
         <div className="flex w-full  py-4 px-4 items-center gap-4 flex-row ">
           {post.usuario?.foto === "" || post.usuario?.foto === " " ?
@@ -42,14 +37,28 @@ function CardPostagemUsuario({ post }: CardPostagemProps) {
           </div>
 
 
+          <div className='ml-[70%] w-1/2 text-end text-lg lg:ml-[40%] lg:w-36 md:ml-[30%] sm:ml-[20%]  cp:ml-0 flex flex-row cp:flex-col'>
 
-          <Link to={`/deletarPostagem/${post.id}`} >
-            <button>Deletar</button>
-          </Link>
+            <Link to={`/deletarPostagem/${post.id}`} >
+              <FontAwesomeIcon icon={faTrash} className='pr-6 cp:pr-0 hover:text-red-500' />
+            </Link>
 
-          <Link to={`/editarPostagem/${post.id}`}>
-            <button>Editar</button>
-          </Link>
+            <Link to={`/editarPostagem/${post.id}`}>
+              <button>Editar</button>
+              
+            </Link>
+
+
+
+
+            
+
+
+
+
+
+          </div>
+
 
 
 
@@ -58,7 +67,7 @@ function CardPostagemUsuario({ post }: CardPostagemProps) {
         <div className='p-4 flex flex-col gap-5'>
           <h4 className='text-xl font-semibold capitalize '>{post.titulo}</h4>
           <p className='text-lg'><span className='font-semibold'>Tema: </span>{post.tema?.descricao}</p>
-          <p className='text-justify break-words  text-ellipsis '>{post.texto}</p>
+          <p className='text-justify text-clip  break-words '>{post.texto}</p>
 
 
         </div>

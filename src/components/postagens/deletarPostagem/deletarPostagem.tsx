@@ -55,6 +55,11 @@ function DeletarPostagem() {
           'Authorization': token
         }
       })
+      await deletar(`/temas/${postagem.tema.id}`, {
+        headers: {
+          'Authorization': token
+        }
+      })
 
       toastAlerta('Postagem apagada com sucesso', 'sucesso')
 

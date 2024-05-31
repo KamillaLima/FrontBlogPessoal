@@ -1,12 +1,12 @@
 import React from 'react';
 import FormularioPostagem from '../formularioPostagem/FormularioPostagem';
-
+import './ModalPostagem.css'
 import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
 
-import './ModalPostagem.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import EditarFormularioPostagem from '../formularioPostagem/EditarFormularioPostagem';
 
 function ModalPostagem() {
   return (
@@ -17,7 +17,7 @@ function ModalPostagem() {
 
 
           Nova postagem</button>} modal>
-        <div>
+        <div  >
           <FormularioPostagem />
         </div>
       </Popup>

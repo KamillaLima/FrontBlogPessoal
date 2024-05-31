@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/login/Login';
@@ -11,13 +8,10 @@ import Cadastro from './pages/cadastro/Cadastro';
 import Navbar from './components/navbar/Navbar';
 import Home from './pages/home/Home';
 import Footer from './components/footer/Footer';
-import FormularioTema from './components/temas/formularioTema/FormularioTema';
 import ListaPostagens from './components/postagens/listaPostagem/ListaPostagens';
 import FormularioPostagem from './components/postagens/formularioPostagem/FormularioPostagem';
-
 import DeletarPostagem from './components/postagens/deletarPostagem/deletarPostagem';
 import Usuario from './pages/usuario/Usuario';
-import CardPostagem from './components/postagens/cardPostagem/CardPostagem';
 
 function App() {
   
@@ -27,7 +21,7 @@ function App() {
       <ToastContainer />
         <BrowserRouter>
         <Navbar />
-          <div className='w-full min-h-[80vh] '>
+          <div className='w-full h-full'>
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />

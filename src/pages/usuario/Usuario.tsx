@@ -4,9 +4,8 @@ import { AuthContext } from "../../contexts/AuthContext"
 import Postagem from "../../models/Postagem"
 import { buscar } from "../../services/Service"
 import { toastAlerta } from "../../utils/toastAlerta"
-import CardPostagem from '../../components/postagens/cardPostagem/CardPostagem'
-import DeletarPostagem from '../../components/postagens/deletarPostagem/deletarPostagem'
 import CardPostagemUsuario from '../../components/postagens/cardPostagem/cardPostagemUsuario'
+import { Oval } from 'react-loader-spinner'
 
 function Usuario() {
   let navigate = useNavigate()
@@ -40,17 +39,34 @@ function Usuario() {
   useEffect(() => {
     buscarPostagens();
   }, [postagens.length]);
+
   return (
-    <div className=' w-full text-ed items-center flex flex-col'>
-      <p className=''>Minhas publicações : </p>
+    <div className=' '>
+      <p className='mb-12 text-4xl font-light text-center text-purple'>Minhas publicações : </p>
+      <div>
+        {postagens.length === 0 && (
+          <div className='justify-center items-center flex ' >
+            <Oval
+              color='#8e86bd'
+              secondaryColor='#8e86bd'
+              visible={true}
+              height="200"
+              width="200"
+            />
+          </div>
+        )}
 
-      <div className='flex flex-col w-full gap-12 my-12 justify-center items-center '>
-        {resultado.map((postagem) => (
-          <CardPostagemUsuario key={postagem.id} post={postagem} />
-          
-        ))}
 
+        <div className='flex flex-col w-full gap-12 my-12 justify-center items-center '>
+
+          {resultado.map((postagem) => (
+            <CardPostagemUsuario key={postagem.id} post={postagem} />
+
+          ))}
+
+        </div>
       </div>
+
     </div>
   )
 }

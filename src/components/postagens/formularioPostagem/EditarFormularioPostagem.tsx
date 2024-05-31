@@ -3,13 +3,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthContext';
 import Postagem from '../../../models/Postagem';
 import Tema from '../../../models/Tema';
-import { buscar, atualizar, cadastrar } from '../../../services/Service';
+import { buscar, atualizar } from '../../../services/Service';
 import { toastAlerta } from '../../../utils/toastAlerta';
 
-function FormularioPostagem() {
+interface EditarFormularioPostagemProps {
+  postId: number;
+}
+
+
+function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
   const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black'
   let navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
   const [tema, setTema] = useState<Tema>({} as Tema);
@@ -23,10 +27,10 @@ function FormularioPostagem() {
   }, [token]);
 
   useEffect(() => {
-    if (id !== undefined) {
-      buscarPostagemId(id);
+    if (postId !== undefined) {
+      buscarPostagemId(postId);
     }
-  }, [id]);
+  }, [postId]);
 
   useEffect(() => {
     if (postagem.tema && postagem.tema.id) {
@@ -34,9 +38,9 @@ function FormularioPostagem() {
     }
   }, [postagem.tema?.id]);
 
-  async function buscarPostagemId(id: string) {
+  async function buscarPostagemId(postId: number) {
     try {
-      const resposta = await buscar(`/postagens/id/${id}`, setPostagem, {
+      const resposta = await buscar(`/postagens/id/${postId}`, setPostagem, {
         headers: {
           Authorization: token,
         },
@@ -95,11 +99,11 @@ function FormularioPostagem() {
   async function gerarNovaPostagem(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (id) {
+    if (postId) {
       await handleUpdatePostagem();
       await handleUpdateTema();
     } else {
-      await handleCreatePostagem();
+      console.log('erro')
     }
   }
 
@@ -119,6 +123,7 @@ function FormularioPostagem() {
 
   async function handleUpdateTema() {
     try {
+      console.log(tema)
       await atualizar(`/temas`, tema, setTema, {
         headers: {
           Authorization: token,
@@ -131,42 +136,7 @@ function FormularioPostagem() {
     }
   }
 
-  async function handleCreatePostagem() {
-    try {
-      const temaResponse = await cadastrarTema();
-      await cadastrarPostagem(temaResponse.id);
-      toastAlerta('Postagem cadastrada com sucesso', 'sucesso');
-      retornar();
-    } catch (error: any) {
-      handleRequestError(error, 'Erro ao cadastrar a Postagem');
-    }
-  }
 
-  async function cadastrarTema() {
-    try {
-      const response = await cadastrar(`/temas`, tema, setTema, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      return response;
-    } catch (error) {
-      throw new Error('Erro ao cadastrar tema');
-    }
-  }
-
-  async function cadastrarPostagem(temaId: number) {
-    try {
-      const novaPostagem = { ...postagem, tema: { id: temaId } };
-      await cadastrar(`/postagens`, novaPostagem, setPostagem, {
-        headers: {
-          Authorization: token,
-        },
-      });
-    } catch (error) {
-      throw new Error('Erro ao cadastrar postagem');
-    }
-  }
 
   function handleRequestError(error: any, defaultMessage: string) {
     if (error.toString().includes('403')) {
@@ -177,10 +147,9 @@ function FormularioPostagem() {
       toastAlerta(defaultMessage, 'erro');
     }
   }
-
   return (
     <div className="container flex flex-col mx-auto items-center w-full h-full ">
-      <h1 className="text-5xl text-center my-8">{id ? 'Editar Postagemmmm' : 'Cadastrar Postagem'}</h1>
+      <h1 className="text-5xl text-center my-8">Editar Postagem</h1>
 
       <form onSubmit={gerarNovaPostagem} className="flex flex-col w-full gap-4">
         <div className="flex flex-col gap-2">
@@ -220,17 +189,17 @@ function FormularioPostagem() {
             required>
 
           </textarea>
-          
-            
+
+
         </div>
 
 
         <button type="submit" className="rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2">
-          {id ? 'Editar' : 'Cadastrar'}
+          Editar
         </button>
       </form>
     </div>
   );
 }
 
-export default FormularioPostagem;
+export default EditarFormularioPostagem;
