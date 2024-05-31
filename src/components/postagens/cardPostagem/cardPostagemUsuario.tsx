@@ -7,7 +7,6 @@ import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Popup from 'reactjs-popup';
 import FormularioPostagem from '../formularioPostagem/FormularioPostagem';
 import EditarFormularioPostagem from '../formularioPostagem/EditarFormularioPostagem';
-import ModalPostagem from '../modalPostagem/ModalPostagem';
 
 interface CardPostagemProps {
   post: Postagem
@@ -16,6 +15,8 @@ interface CardPostagemProps {
 function CardPostagemUsuario({ post }: CardPostagemProps) {
   const dataLocal = new Date(post.data + 'Z').toLocaleString();
 
+
+  { console.log(post.data) }
   return (
     <div className='border w-2/3 rounded  '>
       <div>
@@ -43,15 +44,13 @@ function CardPostagemUsuario({ post }: CardPostagemProps) {
               <FontAwesomeIcon icon={faTrash} className='pr-6 cp:pr-0 hover:text-red-500' />
             </Link>
 
-            <Link to={`/editarPostagem/${post.id}`}>
-              <button>Editar</button>
-              
-            </Link>
 
-
-
-
-            
+            <Popup
+              trigger={ <FontAwesomeIcon icon={faPenToSquare} className='pr-6 cp:pr-0 hover:text-red-500' />}
+              modal >
+                
+              <EditarFormularioPostagem postId={post.id}/>
+            </Popup>
 
 
 

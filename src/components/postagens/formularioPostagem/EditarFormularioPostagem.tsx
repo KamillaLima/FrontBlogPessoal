@@ -11,6 +11,8 @@ interface EditarFormularioPostagemProps {
 }
 
 
+
+
 function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
   const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black'
   let navigate = useNavigate();
@@ -18,6 +20,7 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
   const token = usuario.token;
   const [tema, setTema] = useState<Tema>({} as Tema);
   const [postagem, setPostagem] = useState<Postagem>({} as Postagem);
+
 
   useEffect(() => {
     if (!token) {
@@ -83,14 +86,19 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
   }
 
   function atualizarEstadoTema(e: ChangeEvent<HTMLInputElement>) {
+    // Mantenha o ID do tema ao atualizar a descrição
     const novoTema = { ...tema, descricao: e.target.value };
     setTema(novoTema);
-
+  
+    // Atualize a descrição do tema na postagem mantendo o ID do tema
     setPostagem((prevPostagem) => ({
       ...prevPostagem,
-      tema: novoTema,
+      tema: { ...prevPostagem.tema, descricao: e.target.value, id: prevPostagem.tema.id },
     }));
   }
+  
+  
+  
 
   function retornar() {
     navigate(-1);
@@ -123,7 +131,7 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
 
   async function handleUpdateTema() {
     try {
-      console.log(tema)
+     
       await atualizar(`/temas`, tema, setTema, {
         headers: {
           Authorization: token,
@@ -147,6 +155,9 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
       toastAlerta(defaultMessage, 'erro');
     }
   }
+
+  console.log(tema)
+  console.log(postagem)
   return (
     <div className="container flex flex-col mx-auto items-center w-full h-full ">
       <h1 className="text-5xl text-center my-8">Editar Postagem</h1>
@@ -189,7 +200,7 @@ function EditarFormularioPostagem({ postId }: EditarFormularioPostagemProps) {
             required>
 
           </textarea>
-
+          <p className='text-sm mb-1'>O texto da postagem deve possuir mais de 100 caracteres!</p>
 
         </div>
 

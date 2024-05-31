@@ -12,6 +12,7 @@ import ListaPostagens from './components/postagens/listaPostagem/ListaPostagens'
 import FormularioPostagem from './components/postagens/formularioPostagem/FormularioPostagem';
 import DeletarPostagem from './components/postagens/deletarPostagem/deletarPostagem';
 import Usuario from './pages/usuario/Usuario';
+import EditarFormularioPostagem from './components/postagens/formularioPostagem/EditarFormularioPostagem';
 
 function App() {
   

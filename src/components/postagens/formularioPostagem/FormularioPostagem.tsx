@@ -7,7 +7,7 @@ import { buscar, atualizar, cadastrar } from '../../../services/Service';
 import { toastAlerta } from '../../../utils/toastAlerta';
 
 function FormularioPostagem() {
-  const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black'
+  const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black';
   let navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { usuario, handleLogout } = useContext(AuthContext);
@@ -22,43 +22,6 @@ function FormularioPostagem() {
     }
   }, [token]);
 
-  useEffect(() => {
-    if (id !== undefined) {
-      buscarPostagemId(id);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (postagem.tema && postagem.tema.id) {
-      buscarTemaId(postagem.tema.id);
-    }
-  }, [postagem.tema?.id]);
-
-  async function buscarPostagemId(id: string) {
-    try {
-      const resposta = await buscar(`/postagens/id/${id}`, setPostagem, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      setPostagem(resposta);
-    } catch (error: any) {
-      toastAlerta('Erro ao carregar informações da postagem', 'erro');
-    }
-  }
-
-  async function buscarTemaId(id: number) {
-    try {
-      const resposta = await buscar(`/temas/${id}`, setTema, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      setTema(resposta);
-    } catch (error: any) {
-      toastAlerta('Erro ao carregar informações do tema', 'erro');
-    }
-  }
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
     setPostagem({
@@ -81,11 +44,6 @@ function FormularioPostagem() {
   function atualizarEstadoTema(e: ChangeEvent<HTMLInputElement>) {
     const novoTema = { ...tema, descricao: e.target.value };
     setTema(novoTema);
-
-    setPostagem((prevPostagem) => ({
-      ...prevPostagem,
-      tema: novoTema,
-    }));
   }
 
   function retornar() {
@@ -95,46 +53,21 @@ function FormularioPostagem() {
   async function gerarNovaPostagem(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (id) {
-      await handleUpdatePostagem();
-      await handleUpdateTema();
-    } else {
       await handleCreatePostagem();
-    }
+    
   }
 
-  async function handleUpdatePostagem() {
-    try {
-      await atualizar(`/postagens`, postagem, setPostagem, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      toastAlerta('Postagem atualizada com sucesso', 'sucesso');
-      retornar();
-    } catch (error: any) {
-      handleRequestError(error, 'Erro ao atualizar a Postagem');
-    }
-  }
 
-  async function handleUpdateTema() {
-    try {
-      await atualizar(`/temas`, tema, setTema, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      toastAlerta('tema atualizada com sucesso', 'sucesso');
-      retornar();
-    } catch (error: any) {
-      handleRequestError(error, 'Erro ao atualizar o tema');
-    }
-  }
 
   async function handleCreatePostagem() {
     try {
-      const temaResponse = await cadastrarTema();
-      await cadastrarPostagem(temaResponse.id);
+      const temaId = tema.id ? tema.id : await cadastrarTema();
+      const novaPostagem = { ...postagem, tema: { id: temaId } };
+      await cadastrar(`/postagens`, novaPostagem, setPostagem, {
+        headers: {
+          Authorization: token,
+        },
+      });
       toastAlerta('Postagem cadastrada com sucesso', 'sucesso');
       retornar();
     } catch (error: any) {
@@ -149,22 +82,9 @@ function FormularioPostagem() {
           Authorization: token,
         },
       });
-      return response;
+      return response.id;
     } catch (error) {
       throw new Error('Erro ao cadastrar tema');
-    }
-  }
-
-  async function cadastrarPostagem(temaId: number) {
-    try {
-      const novaPostagem = { ...postagem, tema: { id: temaId } };
-      await cadastrar(`/postagens`, novaPostagem, setPostagem, {
-        headers: {
-          Authorization: token,
-        },
-      });
-    } catch (error) {
-      throw new Error('Erro ao cadastrar postagem');
     }
   }
 
@@ -180,7 +100,7 @@ function FormularioPostagem() {
 
   return (
     <div className="container flex flex-col mx-auto items-center w-full h-full ">
-      <h1 className="text-5xl text-center my-8">{id ? 'Editar Postagemmmm' : 'Cadastrar Postagem'}</h1>
+      <h1 className="text-5xl text-center my-8">{id ? 'Editar Postagem' : 'Cadastrar Postagem'}</h1>
 
       <form onSubmit={gerarNovaPostagem} className="flex flex-col w-full gap-4">
         <div className="flex flex-col gap-2">
@@ -189,6 +109,7 @@ function FormularioPostagem() {
             value={postagem.titulo || ''}
             onChange={atualizarEstado}
             type="text"
+            minLength={10}
             placeholder="Titulo"
             name="titulo"
             required
@@ -207,26 +128,27 @@ function FormularioPostagem() {
             value={tema.descricao || ''}
             onChange={atualizarEstadoTema}
             className={inputs}
+            minLength={10}
           />
         </div>
 
-
         <div className="flex flex-col gap-2">
           <label htmlFor="texto">Texto:</label>
-          <textarea className={inputs} cols={4} rows={4} value={postagem.texto || ''}
+          <textarea
+            className={inputs}
+            cols={4}
+            rows={4}
+            value={postagem.texto || ''}
             onChange={atualizarEstadoTextArea}
             placeholder="Texto"
             name="texto"
-            required>
-
-          </textarea>
-          
-            
+            required
+          />
+          <p className='text-sm mb-1'>O texto da postagem deve possuir mais de 100 caracteres!</p>
         </div>
 
-
         <button type="submit" className="rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2">
-          {id ? 'Editar' : 'Cadastrar'}
+          Cadastrar
         </button>
       </form>
     </div>
