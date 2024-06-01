@@ -85,9 +85,12 @@ function Cadastro() {
 
   return (
     <>
-      <div className="grid grid-cols-2 cp:grid-cols-1 sm:grid-cols-1 h-screen w-full  items-center justify-center ">
-        <div className=" w-full cp:hidden sm:hidden items-center justify-center">
-          <img src={foto} className=' items-center justify-center w-[80%] ml-12'></img>
+      <div className="grid grid-cols-2 cp:grid-cols-1 sm:grid-cols-1 items-center  justify-center">
+        <div className=" cp:hidden sm:hidden items-center justify-center flex flex-col">
+          <img src={foto} className='w-[80%]'></img>
+          <p className='text-gray-300  md:text-xs sm:text-xs text-center'>
+            Illustration by <a href="https://icons8.com/illustrations/author/mNCLibjicqSz" target='_blank'>Julia K</a> from <a href="https://icons8.com/illustrations" target='_blank'>Ouch!</a>
+          </p>
         </div>
         <form className='flex  flex-col w-full h-full  bg-purple px-14 pb-11 md:px-10 2xl:pb-52 items-center 2xl:pt-24  ' onSubmit={cadastrarNovoUsuario}>
           <div className='relative top-6 w-1/2 text-center  bg-purple items-center cp:w-full md:w-52  lg:w-[60%] '>

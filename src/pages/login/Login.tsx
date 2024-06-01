@@ -141,7 +141,10 @@ function Login() {
         </form>
         <div className="w-full cp:hidden ">
 
-          <img src={Imagem} className='w-screen p-10' />
+          <img src={Imagem} className='w-screen ' />
+          <p className='text-gray-300  md:text-xs sm:text-xs text-center'>
+            Illustration by <a href="https://icons8.com/illustrations/author/mNCLibjicqSz" target='_blank'>Julia K</a> from <a href="https://icons8.com/illustrations" target='_blank'>Ouch!</a>
+          </p>
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/login/Login';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import Cadastro from './pages/cadastro/Cadastro';
@@ -12,10 +12,11 @@ import ListaPostagens from './components/postagens/listaPostagem/ListaPostagens'
 import FormularioPostagem from './components/postagens/formularioPostagem/FormularioPostagem';
 import DeletarPostagem from './components/postagens/deletarPostagem/deletarPostagem';
 import Usuario from './pages/usuario/Usuario';
-import EditarFormularioPostagem from './components/postagens/formularioPostagem/EditarFormularioPostagem';
+import NotFound from './pages/notFound/NotFound';
 
 function App() {
   
+ 
   return (
     <>
       <AuthProvider>
@@ -32,6 +33,8 @@ function App() {
               <Route path="/postagens" element={<ListaPostagens />} />
               <Route path="/cadastroPostagem" element={<FormularioPostagem />} />
               <Route path="/deletarPostagem/:id" element={<DeletarPostagem />} />
+              <Route path='/404' element={<NotFound/>}/>
+              <Route path="*" element={<Navigate to="/404"/>} />
             </Routes>
           </div>
           <Footer />
@@ -41,4 +44,6 @@ function App() {
   );
 }
 
-export default App;
+export default App
+
+//Route path = * , TODAS as rotas que não foram mapeadas irá cair aqui
