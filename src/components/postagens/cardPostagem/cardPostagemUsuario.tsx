@@ -18,25 +18,25 @@ function CardPostagemUsuario({ post }: CardPostagemProps) {
   return (
     <div className='border w-2/3 rounded  '>
       <div>
-        <div className="flex w-full  py-4 px-4 items-center gap-4 flex-row ">
+        <div className="flex w-full  py-4 px-4 items-center gap-2 flex-row ">
           {post.usuario?.foto === "" || post.usuario?.foto === " " ?
             (
-              <img src={foto} className='h-12 rounded-full brightness-50' alt="foto do usuário" />
+              <img src={foto} className='h-12 rounded-full brightness-50 cp:hidden' alt="foto do usuário" />
             ) : (
-              <img src={post.usuario?.foto} className='h-12 rounded-full ' alt="foto do usuário" />
+              <img src={post.usuario?.foto} className='h-12 rounded-full cp:hidden' alt="foto do usuário" />
             )
 
           }
 
-          <div className=''>
+          <div className=' w-full '>
             <h3 className='text-lg font-bold capitalize '>{post.usuario?.nome}</h3>
 
-            <p className=' '>{dataLocal}</p>
+            <p className='text-sm '>{dataLocal}</p>
 
           </div>
 
 
-          <div className='ml-[70%] w-1/2 text-end text-lg lg:ml-[40%] lg:w-36 md:ml-[30%] sm:ml-[20%]  cp:ml-0 flex flex-row cp:flex-col  items-center'>
+          <div className=' ml-[70%] w-1/2 text-end text-lg lg:ml-[40%] lg:w-36 md:ml-[30%] sm:ml-[20%]  cp:ml-0 flex flex-row cp:flex-col  items-center'>
 
             <Link to={`/deletarPostagem/${post.id}`} >
               <FontAwesomeIcon icon={faTrash} className='pr-6 cp:pr-0 hover:text-red-500' />

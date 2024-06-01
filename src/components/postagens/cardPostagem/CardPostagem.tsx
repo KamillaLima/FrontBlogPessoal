@@ -14,9 +14,9 @@ function CardPostagem({ post }: CardPostagemProps) {
         <div className="flex w-full  py-4 px-4 items-center gap-4">
           {post.usuario?.foto === "" || post.usuario?.foto === " " ?
             (
-              <img src={foto} className='h-12 rounded-full brightness-50' alt="foto do usuário" />
+              <img src={foto} className='h-12 rounded-full brightness-50 cp:hidden' alt="foto do usuário" />
             ) : (
-              <img src={post.usuario?.foto} className='h-12 rounded-full w-[5%] object-cover' alt="foto do usuário" />
+              <img src={post.usuario?.foto} className='h-12 rounded-full cp:hidden w-[5%] object-cover' alt="foto do usuário" />
             )
 
           }
