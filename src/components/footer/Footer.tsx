@@ -19,9 +19,9 @@ function Footer() {
             <div className='flex gap-20 mr-3 '>
               <a href='https://www.linkedin.com/in/kamillarodrigues/' target='_blank'>
                 
-              <LinkedinLogo size={48} weight='light' />
+              <LinkedinLogo size={48} weight='light' className='hover:text-greenS'/>
               </a>
-              <a href='https://github.com/KamillaLima' target='_blank'>
+              <a href='https://github.com/KamillaLima' target='_blank' className='hover:text-greenS'>
                 
               <GithubLogo size={48} weight='light' />
               </a>

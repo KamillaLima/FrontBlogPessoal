@@ -7,16 +7,21 @@ import { buscar, atualizar } from '../../../services/Service';
 import { toastAlerta } from '../../../utils/toastAlerta';
 import { RotatingLines } from 'react-loader-spinner';
 
-function EditarFormularioPostagem() {
+interface Props {
+  postId: number;
+}
+
+
+function EditarFormularioPostagem({ postId: id }: Props) {
   const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black'
   let navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
   const [tema, setTema] = useState<Tema>({} as Tema);
   const [postagem, setPostagem] = useState<Postagem>({} as Postagem);
   const [meuEstado, setMeuEstado] = useState<{ id: number; descricao: string }>({ id: 0, descricao: "ola und" });
-  const { isLoading } = useContext(AuthContext)
+
 
   useEffect(() => {
     if (!token) {
@@ -37,7 +42,7 @@ function EditarFormularioPostagem() {
     }
   }, [postagem.tema?.id]);
 
-  async function buscarPostagemId(postId: string) {
+  async function buscarPostagemId(postId: number) {
     try {
       const resposta = await buscar(`/postagens/id/${postId}`, setPostagem, {
         headers: {
@@ -98,6 +103,7 @@ function EditarFormularioPostagem() {
       setMeuEstado(novoEstado);
       await handleUpdatePostagem();
       await handleUpdateTema(novoEstado);
+      
     } else {
       console.log('erro')
     }
@@ -124,7 +130,6 @@ function EditarFormularioPostagem() {
           Authorization: token,
         },
       });
-      toastAlerta('Tema atualizado com sucesso', 'sucesso');
     } catch (error: any) {
       handleRequestError(error, 'Erro ao atualizar o tema');
     }
@@ -141,11 +146,11 @@ function EditarFormularioPostagem() {
   }
 
   function retornar() {
-    navigate(-1);
+    navigate('/home');
   }
 
   return (
-    <div className="container flex flex-col mx-auto items-center w-full h-full ">
+    <div className="container flex flex-col mx-auto items-center w-full  h-full ">
       <h1 className="text-5xl text-center my-8">Editar Postagem</h1>
 
       <form onSubmit={gerarNovaPostagem} className="flex flex-col w-full gap-4">
@@ -161,7 +166,7 @@ function EditarFormularioPostagem() {
             className={inputs}
           />
         </div>
-
+        {postagem.titulo?.length <= 9 && <p>Deve ter mais de 9 caracteres</p>}
         <div className="flex flex-col gap-2">
           <label htmlFor="tema">Tema:</label>
           <input
@@ -175,7 +180,7 @@ function EditarFormularioPostagem() {
             className={inputs}
           />
         </div>
-
+        {tema.descricao?.length <= 9 && <p>Deve ter mais de 9 caracteres</p>}
 
         <div className="flex flex-col gap-2">
           <label htmlFor="texto">Texto:</label>
@@ -186,20 +191,11 @@ function EditarFormularioPostagem() {
             required>
 
           </textarea>
-          <p className='text-sm mb-1'>O texto da postagem deve possuir mais de 100 caracteres!</p>
-
         </div>
+        {postagem.texto?.length <= 99 && <p>Deve ter mais de 100 caracteres</p>}
 
-
-        <button type="submit" className="rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 text-white font-bold w-1/2 mx-auto block py-2">
-        {isLoading ? <RotatingLines
-              strokeColor="black"
-              strokeWidth="5"
-              animationDuration="0.75"
-              width="24"
-              visible={true}
-            /> :
-              <span className=' text-2xl '>Editar</span>}
+        <button type="submit" className="rounded  bg-greenS hover:bg-purple text-white font-bold w-1/2 mx-auto block py-2">
+       Editar
         </button>
       </form>
     </div>

@@ -31,7 +31,6 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/postagens" element={<ListaPostagens />} />
               <Route path="/cadastroPostagem" element={<FormularioPostagem />} />
-              <Route path="/editarPostagem/:id" element={<EditarFormularioPostagem />} />
               <Route path="/deletarPostagem/:id" element={<DeletarPostagem />} />
             </Routes>
           </div>

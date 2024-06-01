@@ -7,7 +7,7 @@ import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Popup from 'reactjs-popup';
 import FormularioPostagem from '../formularioPostagem/FormularioPostagem';
 import EditarFormularioPostagem from '../formularioPostagem/EditarFormularioPostagem';
-
+import './ModalPostagem.css'
 interface CardPostagemProps {
   post: Postagem
 }
@@ -36,17 +36,20 @@ function CardPostagemUsuario({ post }: CardPostagemProps) {
           </div>
 
 
-          <div className='ml-[70%] w-1/2 text-end text-lg lg:ml-[40%] lg:w-36 md:ml-[30%] sm:ml-[20%]  cp:ml-0 flex flex-row cp:flex-col'>
+          <div className='ml-[70%] w-1/2 text-end text-lg lg:ml-[40%] lg:w-36 md:ml-[30%] sm:ml-[20%]  cp:ml-0 flex flex-row cp:flex-col  items-center'>
 
             <Link to={`/deletarPostagem/${post.id}`} >
               <FontAwesomeIcon icon={faTrash} className='pr-6 cp:pr-0 hover:text-red-500' />
             </Link>
 
-           
 
-            <Link to={`/editarPostagem/${post.id}`} >
-              <FontAwesomeIcon icon={faPenToSquare} className='pr-6 cp:pr-0 hover:text-greenS' />
-            </Link>
+
+            
+
+            <Popup className=' '
+              trigger={<FontAwesomeIcon icon={faPenToSquare} className='pr-6 cp:pr-0 hover:text-greenS hover:cursor-pointer' />} modal>
+                <EditarFormularioPostagem postId={post.id}/>
+            </Popup>
 
 
           </div>

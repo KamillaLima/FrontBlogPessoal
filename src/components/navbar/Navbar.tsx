@@ -24,16 +24,18 @@ function Navbar() {
   if (usuario.token !== "") {
 
     navbarComponent = (
-      <div className='w-full text-purple flex justify-center py-6 h-[100%] '>
-        <div className="container flex justify-between text-lg">
-          <Link to='/home' className='text-2xl font-light uppercase'>Blog Pessoal</Link>
+      <div className='w-full text-purple flex justify-center py-6 h-[100%] items-center'>
+        <div className=" flex flex-row items-center justify-between w-full text-lg cp:w-[90%] 
+         sm:justify-around  md:justify-around  lg:mx-12   xl:mx-12  2xl:mx-12  ">
+          <Link to='/home' className='text-2xl font-light uppercase cp:hidden md:text-3xl 2xl:text-3xl  hover:text-greenS '>Blog Pessoal</Link>
 
-          <div className='flex gap-4'>
-            <Link to='/postagens' className='hover:underline'>Postagens</Link>
-            <Link to='/usuario' className='hover:underline'>
-            <a data-tooltip-id="my-tooltip" className='hover:cursor-pointer' onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} >
-              <FontAwesomeIcon icon={faUser} />
-            </a>
+          <div className='gap-8  w-[40%] flex justify-around md:w-[30%] md:ml-20 md:text-2xl lg:w-[30%]
+            xl:gap-2  xl:w-[30%] xl:text-2xl font-light items-center 2xl:text-3xl  cp:w-full'>
+            <Link to='/postagens' className=' hover:text-greenS'>Postagens</Link>
+            <Link to='/usuario' className=' hover:text-greenS'>
+              <a data-tooltip-id="my-tooltip" className='hover:text-greenSr' onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} >
+                <FontAwesomeIcon icon={faUser} />
+              </a>
             </Link>
             <ReactTooltip
 
@@ -55,7 +57,7 @@ function Navbar() {
 
             </ReactTooltip>
 
-            <Link to='' onClick={logout} className='hover:underline'><FontAwesomeIcon icon={faArrowRightFromBracket} /></Link>
+            <Link to='' onClick={logout} className=' hover:text-greenS'><FontAwesomeIcon icon={faArrowRightFromBracket} /></Link>
           </div>
         </div>
       </div>

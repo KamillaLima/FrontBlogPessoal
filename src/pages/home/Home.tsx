@@ -16,7 +16,7 @@ function verPostagens() {
     <>
       <div className=" flex justify-center">
         <div className='container grid grid-cols-2 mt-3 cp:grid-cols-1 sm:grid-cols-1 md:ml-2 xl:ml-2 '>
-          <div className="flex flex-col gap-8 justify-center cp:mb-4 md:mb-4 ">
+          <div className="flex flex-col gap-8 justify-center cp:mb-4 md:mb-4 sm:mb-4 ">
 
             <h2 className='text-6xl font-bold text-pink'>Seja bem-vinde ao meu Blog!</h2>
             <p className='text-2xl text-purple italic'>Compartilhe suas ideias e opiniões aqui!</p>

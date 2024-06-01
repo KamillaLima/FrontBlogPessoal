@@ -149,7 +149,7 @@ function FormularioPostagem() {
           {postagem.texto?.length <= 99 && <p>Deve ter mais de 100 caracteres</p>}
         </div>
 
-        <button type="submit" className="rounded disabled:bg-slate-200 bg-greenS hover:bg-purple text-white font-bold w-1/2 mx-auto block py-2">
+        <button type="submit" className="rounded  bg-greenS hover:bg-purple text-white font-bold w-1/2 mx-auto block py-2">
           {isLoading ? <RotatingLines
             strokeColor="black"
             strokeWidth="5"
