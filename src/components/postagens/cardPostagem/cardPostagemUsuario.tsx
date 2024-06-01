@@ -5,7 +5,6 @@ import foto from '../../../assets/usuario.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Popup from 'reactjs-popup';
-import FormularioPostagem from '../formularioPostagem/FormularioPostagem';
 import EditarFormularioPostagem from '../formularioPostagem/EditarFormularioPostagem';
 import './ModalPostagem.css'
 interface CardPostagemProps {
@@ -23,7 +22,7 @@ function CardPostagemUsuario({ post }: CardPostagemProps) {
             (
               <img src={foto} className='h-12 rounded-full brightness-50 cp:hidden' alt="foto do usuário" />
             ) : (
-              <img src={post.usuario?.foto} className='h-12 rounded-full cp:hidden' alt="foto do usuário" />
+              <img src={post.usuario?.foto} className='h-12 rounded-full cp:hidden w-[5%] object-cover' alt="foto do usuário" />
             )
 
           }

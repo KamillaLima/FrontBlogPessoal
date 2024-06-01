@@ -14,7 +14,7 @@ function Cadastro() {
   const inputs = 'border-2 border-violet rounded-lg p-2 w-full pl-10  shadow-sm shadow-black'
   const nomeInput = 'text-white font-semibold'
   let navigate = useNavigate()
-  let [outraLogo, setOutraLogo] = useState(false);
+  let [outraLogo, setOutraLogo] = useState(true);
   const { isLoading } = useContext(AuthContext)
   const [confirmaSenha, setConfirmaSenha] = useState<string>("")
 

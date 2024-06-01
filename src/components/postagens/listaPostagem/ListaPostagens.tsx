@@ -56,6 +56,7 @@ function ListaPostagens() {
       </div>
       )}
       <button className='fixed bottom-2 right-12 bg-purple w-14 h-14 rounded-full hover:bg-greenS  hover:text-pink cp:right-4 sm:right-7  ' onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><FontAwesomeIcon icon={faArrowUp} /></button>
+      <svg className="animate-bounce w-6 h-6 ..."></svg>
       <div className='flex flex-col w-full gap-12 my-12 justify-center items-center '>
         {postagens.map((postagem) => (
           <CardPostagem key={postagem.id} post={postagem} />

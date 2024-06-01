@@ -13,7 +13,7 @@ interface Props {
 
 
 function EditarFormularioPostagem({ postId: id }: Props) {
-  const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black'
+  const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black resize-none';
   let navigate = useNavigate();
 
   const { usuario, handleLogout } = useContext(AuthContext);
@@ -149,6 +149,11 @@ function EditarFormularioPostagem({ postId: id }: Props) {
     navigate('/home');
   }
 
+  function verificarTamanho(postagem: Postagem, tema: Tema) {
+    return postagem.titulo?.length > 9 && postagem.texto?.length > 99 && tema.descricao?.length > 9;
+  }
+
+
   return (
     <div className="container flex flex-col mx-auto items-center w-full  h-full ">
       <h1 className="text-5xl text-center my-8">Editar Postagem</h1>
@@ -194,7 +199,7 @@ function EditarFormularioPostagem({ postId: id }: Props) {
         </div>
         {postagem.texto?.length <= 99 && <p>Deve ter mais de 100 caracteres</p>}
 
-        <button type="submit" className="rounded  bg-greenS hover:bg-purple text-white font-bold w-1/2 mx-auto block py-2">
+        <button disabled={!verificarTamanho(postagem, tema)} type="submit" className=" disabled:bg-gray-300 rounded  bg-greenS hover:bg-purple text-white font-bold w-1/2 mx-auto block py-2">
        Editar
         </button>
       </form>

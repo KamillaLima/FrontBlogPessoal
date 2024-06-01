@@ -8,7 +8,7 @@ import { toastAlerta } from '../../../utils/toastAlerta';
 import { RotatingLines } from 'react-loader-spinner';
 
 function FormularioPostagem() {
-  const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black';
+  const inputs = 'border-2 border-violet rounded-lg p-2 w-full  shadow-sm shadow-black resize-none';
   let navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { usuario, handleLogout } = useContext(AuthContext);
@@ -99,6 +99,11 @@ function FormularioPostagem() {
     }
   }
 
+  function verificarTamanho(postagem: Postagem, tema: Tema) {
+    return postagem.titulo?.length > 9 && postagem.texto?.length > 99 && tema.descricao?.length > 9;
+  }
+
+
   return (
     <div className="container flex flex-col mx-auto items-center w-full h-full ">
       <h1 className="text-5xl text-center my-8">{id ? 'Editar Postagem' : 'Cadastrar Postagem'}</h1>
@@ -138,6 +143,7 @@ function FormularioPostagem() {
           <label htmlFor="texto">Texto:</label>
           <textarea
             className={inputs}
+
             cols={4}
             rows={4}
             value={postagem.texto || ''}
@@ -149,15 +155,9 @@ function FormularioPostagem() {
           {postagem.texto?.length <= 99 && <p>Deve ter mais de 100 caracteres</p>}
         </div>
 
-        <button type="submit" className="rounded  bg-greenS hover:bg-purple text-white font-bold w-1/2 mx-auto block py-2">
-          {isLoading ? <RotatingLines
-            strokeColor="black"
-            strokeWidth="5"
-            animationDuration="0.75"
-            width="24"
-            visible={true}
-          /> :
-            <span className=''>Cadastrar</span>}
+        <button disabled={!verificarTamanho(postagem, tema)} type="submit" className=" disabled:bg-gray-300 rounded  bg-greenS hover:bg-purple text-white font-bold w-1/2 mx-auto block py-2">
+
+          <span className=''>Cadastrar</span>
         </button>
       </form>
     </div>
