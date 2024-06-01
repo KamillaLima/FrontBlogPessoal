@@ -148,6 +148,7 @@ function Cadastro() {
             <div className='-mt-8'>
               <FontAwesomeIcon icon={faLock} size='lg' style={{ color: '#8e86bd' }} className=' relative 2xl:top-12 top-11 left-3' />
             </div>
+
             {
               outraLogo ? (<input
                 type="password"
@@ -171,7 +172,6 @@ function Cadastro() {
               />)
 
             }
-
             <div className='-mb-8 text-end   '>
               <button onClick={mostrarSenha} type='button'>
 

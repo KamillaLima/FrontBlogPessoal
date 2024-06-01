@@ -16,7 +16,7 @@ function CardPostagem({ post }: CardPostagemProps) {
             (
               <img src={foto} className='h-12 rounded-full brightness-50' alt="foto do usuário" />
             ) : (
-              <img src={post.usuario?.foto} className='h-12 rounded-full ' alt="foto do usuário" />
+              <img src={post.usuario?.foto} className='h-12 rounded-full w-[5%] object-cover' alt="foto do usuário" />
             )
 
           }

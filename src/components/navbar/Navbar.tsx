@@ -43,14 +43,14 @@ function Navbar() {
               isOpen={isOpen}
               style={{ backgroundColor: "#8e86bd", height: "12rem", boxShadow: "revert" }}
             >
-              <div className='text-white text-center w-full h-full'>
+              <div className='text-white text-center w-full h-full flex items-center flex-col'>
                 <h1>
                   Olá {usuario.nome}!
                 </h1>
                 {usuario.foto === "" || usuario.foto === " " ? (
                   <img className='mt-3 w-full h-32 object-cover rounded-full' src={foto} alt="foto padrão" />
                 ) : (
-                  <img src={usuario.foto} className='mt-3 w-full h-32 object-cover rounded-full' alt="foto do usuário" />
+                  <img src={usuario.foto} className='mt-3 w-[85%] h-32 object-cover rounded-full' alt="foto do usuário" />
                 )}
               </div>
 
